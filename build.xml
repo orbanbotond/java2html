@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="Java2Html" default="jar">
+    <target name="clean" description="remove intermediate files">
+        <delete dir="classes"/>
+    </target>
+    <target name="clobber" depends="clean" description="remove all artifact files">
+        <delete file="java2html.jar"/>
+    </target>
+    <target name="compile" description="compile the Java source code to class files">
+        <mkdir dir="classes"/>
+        <javac srcdir="src" destdir="classes"/>
+    </target>
+    <target name="jar" depends="compile" description="create a Jar file for the application">
+        <jar destfile="java2html.jar">
+            <fileset dir="classes" includes="**/*.class"/>
+            <manifest>
+                <attribute name="comment" value="A modified version of Markus Gebhard's java2Html."/>
+                <attribute name="benefits" value="This version is much more embeddable."/>
+                <attribute name="source" value="http://www.java2html.de/"/>
+            </manifest>
+        </jar>
+    </target>
+</project>
