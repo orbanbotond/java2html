@@ -255,7 +255,7 @@ public void convert(JavaSource source, JavaSourceConversionOptions options, Buff
   private void writeLineNumber(JavaSourceConversionOptions options, BufferedWriter writer, int lineNo)
       throws IOException {
     JavaSourceStyleEntry styleEntry = options.getStyleTable().get(JavaSourceType.LINE_NUMBERS);
-    writeStyleStart(writer, styleEntry);
+    writeStyleStart(writer, styleEntry, null);
 
     String lineNumber = String.valueOf(lineNo);
     int cifferCount = lineCifferCount - lineNumber.length();
@@ -272,9 +272,10 @@ public void convert(JavaSource source, JavaSourceConversionOptions options, Buff
   private void toHTML(JavaSourceStyleTable styleTable, JavaSourceRun run, BufferedWriter writer)
       throws IOException {
     //  result.append(htmlColors[sourceTypes[start]]);
-    JavaSourceStyleEntry style = styleTable.get(run.getType());
+    JavaSourceType sourceType = run.getType();
+    JavaSourceStyleEntry style = styleTable.get(sourceType);
 
-    writeStyleStart(writer, style);
+    writeStyleStart(writer, style, sourceType.getName());
 
     String t = HtmlUtilities.encode(run.getCode(), "\n ");
 
@@ -291,8 +292,13 @@ public void convert(JavaSource source, JavaSourceConversionOptions options, Buff
     writeStyleEnd(writer, style);
   }
 
-  private void writeStyleStart(BufferedWriter writer, JavaSourceStyleEntry style) throws IOException {
-    writer.write("<font color=\"" + style.getHtmlColor() + "\">");
+  private void writeStyleStart(BufferedWriter writer, JavaSourceStyleEntry style, String name) throws IOException {
+      if(null != name){
+          writer.write("<font class=\"" + name.toLowerCase().replaceAll(" ", "_") + "\" >");
+      }else{
+          writer.write("<font color=\"" + style.getHtmlColor() + "\" >");
+      }
+
     if (style.isBold()) {
       writer.write("<b>");
     }
