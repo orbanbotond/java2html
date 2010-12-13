@@ -266,7 +266,7 @@ public void convert(JavaSource source, JavaSourceConversionOptions options, Buff
 
     writer.write(lineNumber);
     writeStyleEnd(writer, styleEntry);
-    writer.write("&nbsp;");
+    writer.write(" ");
   }
 
   private void toHTML(JavaSourceStyleTable styleTable, JavaSourceRun run, BufferedWriter writer)
@@ -282,7 +282,7 @@ public void convert(JavaSource source, JavaSourceConversionOptions options, Buff
     for (int i = 0; i < t.length(); ++i) {
       char ch = t.charAt(i);
       if (ch == ' ') {
-        writer.write("&nbsp;");
+        writer.write(" ");
       }
       else {
         writer.write(ch);
